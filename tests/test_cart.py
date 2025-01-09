@@ -4,11 +4,12 @@ from allure_commons.types import LabelType
 from pages.cart_page import CartPage
 from pages.main_page import MainPage
 
+
 @allure.epic("Helix")
 @allure.feature("Корзина")
 class TestCart:
     @allure.story("Добавление в корзину")
-    @allure.label(LabelType.TAG,"smoke")
+    @allure.label(LabelType.TAG, "smoke")
     @allure.severity("BLOCKER")
     def test_add_to_cart(self, browser_driver):
         with allure.step("Открыть главную страницу"):
@@ -25,7 +26,7 @@ class TestCart:
             cart_page.check_item("ЭЛИ-Н-ТЕСТ")
 
     @allure.story("Удаление из корзины")
-    @allure.label(LabelType.TAG,"smoke")
+    @allure.label(LabelType.TAG, "smoke")
     @allure.severity("CRITICAL")
     def test_delete_from_cart(self, browser_driver):
         with allure.step("Открыть главную страницу"):

@@ -8,7 +8,6 @@ from selenium.webdriver.chrome.options import Options
 
 from utils import attach
 
-
 DEFAULT_BROWSER_ADDRESS = "selenoid.autotests.cloud"
 
 
@@ -17,9 +16,11 @@ def pytest_addoption(parser):
         "--browser_address"
     )
 
+
 @pytest.fixture(scope='session', autouse=True)
 def load_env():
     load_dotenv()
+
 
 @pytest.fixture(scope="function")
 def browser_driver(request):

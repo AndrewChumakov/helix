@@ -15,7 +15,6 @@ class MainPage:
         self.add = browser.all("//button[@class='button button-primary button-xs full-width ng-star-inserted']")
         self.cart = browser.element("//span[@data-testid='header-nav-cart-button']")
 
-
     def open_page(self, page):
         browser.open(page)
 
