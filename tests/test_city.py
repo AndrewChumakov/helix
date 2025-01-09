@@ -4,7 +4,7 @@ from allure_commons.types import LabelType
 from pages.main_page import MainPage
 
 
-@allure.epic("HELIX")
+@allure.epic("Helix")
 @allure.feature("Город")
 class TestCity:
     @allure.story("Смена города")
