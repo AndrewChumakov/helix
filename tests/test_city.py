@@ -1,42 +1,30 @@
 import allure
 from allure_commons.types import LabelType
 
-from pages.main_page import MainPage
+from data.city import CityName
+from pages.main_page import main_page
 
 
 @allure.epic("Helix")
 @allure.feature("Город")
+@allure.label(LabelType.TAG, "smoke")
 class TestCity:
     @allure.story("Смена города")
-    @allure.label(LabelType.TAG, "smoke")
     @allure.severity("NORMAL")
-    def test_change_city(self, browser_driver):
-        with allure.step("Открыть главную страницу"):
-            main_page = MainPage()
-            main_page.open_page_with_confirm("")
-        with allure.step("Изменить город"):
-            main_page.change_city()
-        with allure.step("Проверить текущий город"):
-            main_page.check_current_city("Москва")
+    def test_change_city(self):
+        main_page.open_page("", True)
+        main_page.change_city()
+        main_page.check_current_city(CityName.MOSCOW)
 
     @allure.story("Отказ от города по умолчанию")
-    @allure.label(LabelType.TAG, "smoke")
     @allure.severity("NORMAL")
-    def test_reject_city(self, browser_driver):
-        with allure.step("Открыть главную страницу с отказом от города"):
-            main_page = MainPage()
-            main_page.open_page_with_reject("")
-        with allure.step("Выбрать город"):
-            main_page.choose_city()
-        with allure.step("Проверить текущий город"):
-            main_page.check_current_city("Москва")
+    def test_reject_city(self):
+        main_page.open_page("", False)
+        main_page.choose_city()
+        main_page.check_current_city(CityName.MOSCOW)
 
     @allure.story("Выбор города по умолчанию")
-    @allure.label(LabelType.TAG, "smoke")
     @allure.severity("BLOCKER")
-    def test_confirm_city(self, browser_driver):
-        with allure.step("Открыть главную страницу с выбором города по умолчанию"):
-            main_page = MainPage()
-            main_page.open_page_with_confirm("")
-        with allure.step("Проверить текущий город"):
-            main_page.check_current_city("Санкт-Петербург")
+    def test_confirm_city(self):
+        main_page.open_page("", True)
+        main_page.check_current_city(CityName.DEFAULT_CITY)

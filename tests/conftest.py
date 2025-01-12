@@ -22,7 +22,7 @@ def load_env():
     load_dotenv()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="function", autouse=True)
 def browser_driver(request):
     browser_address = request.config.getoption('--browser_address')
     browser_address = browser_address if browser_address is not None else DEFAULT_BROWSER_ADDRESS

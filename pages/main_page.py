@@ -1,3 +1,4 @@
+import allure
 from selene import browser, have
 
 
@@ -15,38 +16,45 @@ class MainPage:
         self.add = browser.all("//button[@class='button button-primary button-xs full-width ng-star-inserted']")
         self.cart = browser.element("//span[@data-testid='header-nav-cart-button']")
 
-    def open_page(self, page):
+    @allure.step("Открыть главную страницу")
+    def open_page(self, page, confirm):
         browser.open(page)
+        if confirm:
+            self.confirm_city.click()
+        else:
+            self.reject_city.click()
 
-    def open_page_with_confirm(self, page):
-        self.open_page(page)
-        self.confirm_city.click()
+    @allure.step("Проверить наличие вкладки со скидками")
+    def check_promo_text_from_header(self, promo_text):
+        self.promo_header.should(have.text(promo_text))
 
-    def open_page_with_reject(self, page):
-        self.open_page(page)
-        self.reject_city.click()
-
-    def check_promo_from_header(self):
-        self.promo_header.should(have.text("Скидки и акции"))
-
+    @allure.step("Изменить город")
     def change_city(self):
         self.current_city.click()
         self.choose_city()
 
+    @allure.step("Проверить текущий город")
     def check_current_city(self, city):
         self.current_city.should(have.text(city))
 
+    @allure.step("Выбрать город")
     def choose_city(self):
         self.city.click()
 
-    def search(self, item):
+    @allure.step("Найти на сайте")
+    def search_item(self, item):
         self.search_bar.type(item)
 
+    @allure.step("Проверить количество результатов поиска")
     def check_count(self, count):
         self.count.should(have.text("Количество результатов: " + str(count)))
 
+    @allure.step("Добавить в корзину")
     def add_to_cart(self):
         self.add.first.click()
 
+    @allure.step("Открыть корзину")
     def open_cart(self):
         self.cart.click()
+
+main_page = MainPage()

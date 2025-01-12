@@ -1,46 +1,31 @@
 import allure
 from allure_commons.types import LabelType
 
-from pages.cart_page import CartPage
-from pages.main_page import MainPage
+from data.cart import CartText
+from data.models import eli
+from pages.cart_page import cart_page
+from pages.main_page import main_page
 
 
 @allure.epic("Helix")
 @allure.feature("Корзина")
+@allure.label(LabelType.TAG, "smoke")
 class TestCart:
     @allure.story("Добавление в корзину")
-    @allure.label(LabelType.TAG, "smoke")
     @allure.severity("BLOCKER")
-    def test_add_to_cart(self, browser_driver):
-        with allure.step("Открыть главную страницу"):
-            main_page = MainPage()
-            main_page.open_page_with_confirm("")
-        with allure.step("Найти на сайте"):
-            main_page.search("ЭЛИ")
-        with allure.step("Добавить в корзину"):
-            main_page.add_to_cart()
-        with allure.step("Открыть корзину"):
-            main_page.open_cart()
-        with allure.step("Проверить наличие добавленного исследования"):
-            cart_page = CartPage()
-            cart_page.check_item("ЭЛИ-Н-ТЕСТ")
+    def test_add_to_cart(self):
+        main_page.open_page("", True)
+        main_page.search_item(eli.short_name)
+        main_page.add_to_cart()
+        main_page.open_cart()
+        cart_page.check_item_exist(eli.full_name)
 
     @allure.story("Удаление из корзины")
-    @allure.label(LabelType.TAG, "smoke")
     @allure.severity("CRITICAL")
-    def test_delete_from_cart(self, browser_driver):
-        with allure.step("Открыть главную страницу"):
-            main_page = MainPage()
-            main_page.open_page_with_confirm("")
-        with allure.step("Найти на сайте"):
-            main_page.search("ЭЛИ")
-        with allure.step("Добавить в корзину"):
-            main_page.add_to_cart()
-        with allure.step("Открыть корзину"):
-            main_page.open_cart()
-        with allure.step("Удалить исследование"):
-            cart_page = CartPage()
-            cart_page.delete_from_cart()
-            cart_page.confirm_delete()
-        with allure.step("Проверить, что корзина пустая"):
-            cart_page.check_empty_cart()
+    def test_delete_from_cart(self):
+        main_page.open_page("", True)
+        main_page.search_item(eli.short_name)
+        main_page.add_to_cart()
+        main_page.open_cart()
+        cart_page.delete_from_cart(True)
+        cart_page.check_empty_cart_text(CartText.EmptyCart)

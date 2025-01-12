@@ -1,7 +1,8 @@
 import allure
 from allure_commons.types import LabelType
 
-from pages.main_page import MainPage
+from data.models import eli
+from pages.main_page import main_page
 
 
 @allure.epic("Helix")
@@ -10,11 +11,7 @@ class TestSearch:
     @allure.story("Поиск на сайте")
     @allure.label(LabelType.TAG, "smoke")
     @allure.severity("CRITICAL")
-    def test_search(self, browser_driver):
-        with allure.step("Открыть главную страницу"):
-            main_page = MainPage()
-            main_page.open_page_with_confirm("")
-        with allure.step("Найти на сайте"):
-            main_page.search("ЭЛИ")
-        with allure.step("Проверить результаты поиска"):
-            main_page.check_count(5)
+    def test_search(self):
+        main_page.open_page("", True)
+        main_page.search_item(eli.short_name)
+        main_page.check_count(eli.count)
