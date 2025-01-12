@@ -57,4 +57,5 @@ class MainPage:
     def open_cart(self):
         self.cart.click()
 
+
 main_page = MainPage()

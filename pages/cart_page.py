@@ -27,4 +27,5 @@ class CartPage:
     def check_empty_cart_text(self, text):
         self.cart.should(have.text(text))
 
+
 cart_page = CartPage()
